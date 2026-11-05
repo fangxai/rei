@@ -1,6 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Matches the Compose background, so the splash screen and first frame don't flash lavender. -->
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
 </resources>

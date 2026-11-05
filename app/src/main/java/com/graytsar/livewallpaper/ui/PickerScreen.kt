@@ -5,16 +5,17 @@ package com.graytsar.livewallpaper.ui
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,11 +23,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.graytsar.livewallpaper.R
 import com.graytsar.livewallpaper.ui.theme.AppTheme
+import com.graytsar.livewallpaper.ui.theme.BrandRed
+import com.graytsar.livewallpaper.ui.theme.OnBrandRed
 
 @Composable
 fun PickerScreen(
@@ -62,28 +65,27 @@ fun PickerScreen(
             )
         }
     ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
-            ) {
-                PickerButton(
-                    icon = R.drawable.ic_video_24,
-                    text = R.string.video,
-                    contentDescription = stringResource(R.string.select_video_wallpaper),
-                    onClick = onVideoClicked
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                PickerButton(
-                    icon = R.drawable.ic_image_24,
-                    text = R.string.image,
-                    contentDescription = stringResource(R.string.select_image_wallpaper),
-                    onClick = onImageClicked
-                )
-            }
+        // No inner Surface: the Scaffold paints the background edge to edge, including behind the system bars.
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            PickerButton(
+                icon = R.drawable.ic_video_24,
+                text = R.string.video,
+                contentDescription = stringResource(R.string.select_video_wallpaper),
+                onClick = onVideoClicked
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            PickerButton(
+                icon = R.drawable.ic_image_24,
+                text = R.string.image,
+                contentDescription = stringResource(R.string.select_image_wallpaper),
+                onClick = onImageClicked
+            )
         }
     }
 }
@@ -97,6 +99,10 @@ private fun PickerButton(
 ) {
     Button(
         onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = BrandRed,
+            contentColor = OnBrandRed
+        ),
         modifier = Modifier
             .width(200.dp)
             .wrapContentHeight()

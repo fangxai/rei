@@ -27,7 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -79,69 +78,70 @@ fun SettingsScreen(
             )
         }
     ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
+        // No inner Surface: the Scaffold paints the background edge to edge. The padding sits inside the
+        // scroll container so content can scroll behind the navigation bar but still ends above it.
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            SettingsSectionHeader(titleRes = R.string.section_theme)
+            SettingsSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                textRes = R.string.dark_mode,
+                isChecked = uiState.isDarkModeEnabled,
+                onCheckedChange = onDarkModeChange
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+
+            SettingsSectionHeader(titleRes = R.string.section_gif)
+            DropdownTextField(
+                modifier = Modifier.fillMaxWidth(),
+                options = imageScalingOptions,
+                optionsToStringRes = { it.toTranslation() },
+                value = stringResource(uiState.imageScaleType.toTranslation()),
+                label = R.string.scale_type,
+                onOptionSelected = onImageOptionSelected
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+
+            SettingsSectionHeader(titleRes = R.string.section_video)
+            SettingsSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                textRes = R.string.enable_audio,
+                isChecked = uiState.isAudioEnabled,
+                onCheckedChange = onAudioEnabledChange
+            )
+            DropdownTextField(
+                modifier = Modifier.fillMaxWidth(),
+                options = videoScalingOptions,
+                optionsToStringRes = { it.toTranslation() },
+                value = stringResource(uiState.videoScaleType.toTranslation()),
+                label = R.string.scale_type,
+                onOptionSelected = onVideoOptionSelected
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+
+            SettingsSectionHeader(titleRes = R.string.section_general)
+            SettingsSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                textRes = R.string.double_tap_to_pause,
+                isChecked = uiState.isDoubleTapToPause,
+                onCheckedChange = onDoubleTapToPauseChange
+            )
+            SettingsSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                textRes = R.string.play_offscreen,
+                isChecked = uiState.isPlayOffscreen,
+                onCheckedChange = onPlayOffscreenChange
+            )
+            FilledTonalButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onClearWallpaperClick,
             ) {
-                SettingsSectionHeader(titleRes = R.string.section_theme)
-                SettingsSwitchButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    textRes = R.string.dark_mode,
-                    isChecked = uiState.isDarkModeEnabled,
-                    onCheckedChange = onDarkModeChange
-                )
-                Spacer(modifier = Modifier.size(24.dp))
-
-                SettingsSectionHeader(titleRes = R.string.section_gif)
-                DropdownTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    options = imageScalingOptions,
-                    optionsToStringRes = { it.toTranslation() },
-                    value = stringResource(uiState.imageScaleType.toTranslation()),
-                    label = R.string.scale_type,
-                    onOptionSelected = onImageOptionSelected
-                )
-                Spacer(modifier = Modifier.size(24.dp))
-
-                SettingsSectionHeader(titleRes = R.string.section_video)
-                SettingsSwitchButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    textRes = R.string.enable_audio,
-                    isChecked = uiState.isAudioEnabled,
-                    onCheckedChange = onAudioEnabledChange
-                )
-                DropdownTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    options = videoScalingOptions,
-                    optionsToStringRes = { it.toTranslation() },
-                    value = stringResource(uiState.videoScaleType.toTranslation()),
-                    label = R.string.scale_type,
-                    onOptionSelected = onVideoOptionSelected
-                )
-                Spacer(modifier = Modifier.size(24.dp))
-
-                SettingsSectionHeader(titleRes = R.string.section_general)
-                SettingsSwitchButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    textRes = R.string.double_tap_to_pause,
-                    isChecked = uiState.isDoubleTapToPause,
-                    onCheckedChange = onDoubleTapToPauseChange
-                )
-                SettingsSwitchButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    textRes = R.string.play_offscreen,
-                    isChecked = uiState.isPlayOffscreen,
-                    onCheckedChange = onPlayOffscreenChange
-                )
-                FilledTonalButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = onClearWallpaperClick,
-                ) {
-                    Text(text = stringResource(R.string.clear_wallpapers))
-                }
+                Text(text = stringResource(R.string.clear_wallpapers))
             }
         }
     }
