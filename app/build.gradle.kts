@@ -21,8 +21,8 @@ android {
         applicationId = "com.graytsar.livewallpaper"
         minSdk = 28
         targetSdk = 37
-        versionCode = 25
-        versionName = "1.1.11"
+        versionCode = 26
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
